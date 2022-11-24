@@ -425,11 +425,19 @@ header {
 }
 
 .education {
+  justify-self: start;
+  align-self: start;
   width: 100%;
   border: 1px solid rgb(215, 215, 215);
   padding: 12px;
   border-radius: 12px;
-  background: rgb(250, 250, 250);
+  background: linear-gradient(rgb(250, 250, 250), rgb(25, 215, 240));
+}
+
+.educations {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .education h3 {
@@ -799,12 +807,15 @@ footer {
   justify-self: center;
   z-index: 5;
   background-color: #fff;
-  top: 15%;
+  top: 21px;
   right: 25%;
   width: 500px;
   position: fixed;
   padding: 20px;
   border-radius: 15px;
+  max-height: 610px;
+  height: fit-content;
+  overflow: scroll;
 }
 
 .modal-content form {
@@ -843,4 +854,25 @@ footer {
   width: 100%;
   height: 144px;
   background-size: cover;
+}
+
+.new-edit-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-edit-content input {
+  text-align: center;
+  color: rgb(15, 101, 240);
+}
+
+.new-edit-content option,
+select {
+  text-align: center;
+  color: rgb(15, 101, 240);
+}
+.new-edit-content textarea {
+  text-align: left;
+  padding: 7px;
+  color: rgb(15, 101, 240);
 }

@@ -2,15 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getEducations,
   addEducation,
   deleteEducation,
   updateEducation,
-  getEducation,
+  getEducations,
 } = require("../controllers/educationsController");
 
-router.get("/", getEducations);
-router.get("/:id", getEducation);
+router.get("/:id", getEducations);
 router.post("/", addEducation);
 router.delete("/:id", deleteEducation);
 router.patch("/:id", updateEducation);

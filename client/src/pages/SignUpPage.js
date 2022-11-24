@@ -14,7 +14,7 @@ const SignUpPage = () => {
 
     if (passwordTwo === password && password.length > 6) {
       try {
-        const data = axios.post(`${uri}/api/users`, {
+        const data = await axios.post(`${uri}/api/users`, {
           first_name: firstname,
           last_name: lastname,
           email: email,

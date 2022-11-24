@@ -1,19 +1,20 @@
 import React from "react";
 
-const Education = () => {
+const Education = (props) => {
   return (
     <div className="education">
       <div className="education-info">
-        <h3> Degree at Field</h3>
-        <h4> School Name </h4>
-        <h4> Period of attendance </h4>
+        {props.data.is_attending ? <h4>is attending </h4> : <h4>Graduated</h4>}
+        <h4> {props.data.school_name} for</h4>
+        <h3> {props.data.degree_earned}</h3>
+        <h4>
+          {" "}
+          From {props.data.month_started}/{props.data.year_started} To{" "}
+          {props.data.month_ended}/{props.data.year_ended}
+        </h4>
       </div>
       <div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, quis
-          earum! Eligendi, deserunt, quibusdam in dignissimos minima fugiat,
-          laborum ducimus architecto impedi.
-        </p>
+        <p>{props.data.description}</p>
       </div>
     </div>
   );

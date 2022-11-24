@@ -15,7 +15,8 @@ app.use(express.static(`${__dirname}/client/build`));
 // importing routes
 const userRoutes = require("./routes/users");
 const postRoutes = require("./routes/posts");
-
+const educationRoutes = require("./routes/educations");
+const experienceRoutes = require("./routes/experiences");
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
@@ -36,6 +37,8 @@ connection.once("open", () => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/educations", educationRoutes);
+app.use("/api/experiences", experienceRoutes);
 
 app.use(express.static("build"));
 app.get("*", (req, res) => {

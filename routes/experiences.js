@@ -6,11 +6,9 @@ const {
   addExperience,
   deleteExperience,
   updateExperience,
-  getExperience,
 } = require("../controllers/experiencesController");
 
-router.get("/", getExperiences);
-router.get("/:id", getExperience);
+router.get("/:id", getExperiences);
 router.post("/", addExperience);
 router.delete("/:id", deleteExperience);
 router.patch("/:id", updateExperience);
