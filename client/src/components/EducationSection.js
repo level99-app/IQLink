@@ -8,7 +8,7 @@ import jwt from "jwt-decode";
 const EducationSection = (props) => {
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iqlink.herokuapp.com"
+      ? "https://iraqilink.herokuapp.com"
       : "http://localhost:5000";
 
   const [showEditEducation, setShowEditEducation] = useState(false);

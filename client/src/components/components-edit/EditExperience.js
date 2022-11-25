@@ -4,7 +4,7 @@ import axios from "axios";
 const EditExperience = (props) => {
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iqlink.herokuapp.com"
+      ? "https://iraqilink.herokuapp.com"
       : "http://localhost:5000";
   const [experienceId, setExperienceId] = useState();
   const [companyName, setCompanyName] = useState("");

@@ -18,7 +18,7 @@ import EditCoverPicture from "./components-edit/EditCoverPicture";
 const Header = (props) => {
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iqlink.herokuapp.com"
+      ? "https://iraqilink.herokuapp.com"
       : "http://localhost:5000";
   useEffect(() => {
     console.log(props.data);

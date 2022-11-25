@@ -23,7 +23,7 @@ import axios from "axios";
 const ProfilePage = (props) => {
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iqlink.herokuapp.com"
+      ? "https://iraqilink.herokuapp.com"
       : "http://localhost:5000";
   const [postsData, setPostsData] = useState();
   const [postsLoaded, setPostsLoaded] = useState(false);
