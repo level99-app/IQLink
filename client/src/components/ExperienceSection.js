@@ -8,7 +8,7 @@ import EditExperience from "./components-edit/EditExperience";
 const ExperienceSection = () => {
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iraqilink.herokuapp.com"
+      ? "https://iqlink.herokuapp.com"
       : "http://localhost:5000";
 
   const [showEditExperience, setShowEditExperience] = useState(false);

@@ -6,7 +6,7 @@ import axios from "axios";
 const EditInfo = (props) => {
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iraqilink.herokuapp.com"
+      ? "https://iqlink.herokuapp.com"
       : "http://localhost:5000";
   const id = jwt(localStorage.getItem("token")).id;
 

@@ -6,7 +6,7 @@ const SignUpPage = () => {
 
   const uri =
     process.env.NODE_ENV == "production"
-      ? "https://iraqilink.herokuapp.com"
+      ? "https://iqlink.herokuapp.com"
       : "http://localhost:5000";
 
   const handleSubmit = async (e) => {
