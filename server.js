@@ -35,11 +35,14 @@ connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
 // use routes
-app.use("/api/user/:username", userRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/educations", educationRoutes);
 app.use("/api/experiences", experienceRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 app.use(express.static("build"));
 app.get("*", (req, res) => {
