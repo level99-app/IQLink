@@ -48,11 +48,11 @@ if (process.env.NODE_ENV === "production") {
 
 app.get("*", (req, res) => {
 
-
+  let path = req.params['0'].substring(1)
 
     // Return the actual file
     res.sendFile(`${__dirname}/build/${path}`);
- 
+
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
