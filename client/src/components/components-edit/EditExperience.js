@@ -198,14 +198,14 @@ const EditExperience = (props) => {
                 >
                   delete
                 </button>
-                {e.is_working ? <h4>is working </h4> : <h4>Has wirjed at</h4>}
+                {e.is_working ? <h6>is working </h6> : <h6>Has worked at</h6>}
                 <h3> {e.company_name}</h3>
-                <h4> as {e.position} </h4>
-                <h4>
+                <h5> as {e.position} </h5>
+                <h6>
                   {" "}
                   From {e.month_started}/{e.year_started} To {e.month_ended}/
                   {e.year_ended}
-                </h4>
+                </h6>
               </div>
               <div>
                 <p>{e.description}</p>

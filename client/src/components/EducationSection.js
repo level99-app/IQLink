@@ -13,11 +13,13 @@ const EducationSection = (props) => {
 
   const [showEditEducation, setShowEditEducation] = useState(false);
 
+  const id = props.user
+    ? props.user._id
+    : jwt(localStorage.getItem("token")).id;
+
   const onHideEditEducation = () => {
     setShowEditEducation(false);
   };
-
-  const id = jwt(localStorage.getItem("token")).id;
 
   const [educations, setEducations] = useState([]);
   const fetchEducations = async () => {
@@ -38,9 +40,9 @@ const EducationSection = (props) => {
 
   return (
     <div className="education-section">
-      <h3 className="section-title" style={{ float: "left" }}>
-        Education
-        {user ? (
+      <div className="section-top">
+        <h3 className="section-title">Education</h3>
+        {user && !props.user ? (
           <button
             style={{ fontSize: "16px", float: "right" }}
             onClick={() => setShowEditEducation(true)}
@@ -48,7 +50,8 @@ const EducationSection = (props) => {
             Edit
           </button>
         ) : null}
-      </h3>
+      </div>
+
       {showEditEducation ? (
         <EditEducation
           userId={jwt(localStorage.getItem("token")).id}

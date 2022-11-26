@@ -20,6 +20,7 @@ import { hideModal, showModal } from "./store/actions/loginModelAction";
 import SignInModal from "./components/SignInModal";
 import SignInPage from "./pages/SignInPage";
 import { useAuthContext } from "./hooks/useAuthContext";
+import ProfilePageForeign from "./pages/ProfilePageForeign";
 
 function App(props) {
   const { user } = useAuthContext();
@@ -33,6 +34,7 @@ function App(props) {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/signin" element={<SignInPage />} />
+          <Route path="/user/:username" element={<ProfilePageForeign />} />
         </Routes>
         {user ? <Messenger /> : null}
         {user && !props.messengerBoxState.collapsed ? <MessengerBox /> : null}

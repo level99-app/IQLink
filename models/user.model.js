@@ -19,6 +19,13 @@ const userSchema = new Schema(
       maxlength: 40,
       default: "",
     },
+    username: {
+      type: String,
+      unique: true,
+      required: true,
+      maxlength: 40,
+      minlength: 3,
+    },
     bio: {
       type: String,
       maxlength: 1000,

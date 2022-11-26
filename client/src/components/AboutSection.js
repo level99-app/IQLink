@@ -4,7 +4,7 @@ import EditAbout from "./components-edit/EditAbout";
 import axios from "axios";
 import jwt from "jwt-decode";
 
-const AboutSection = () => {
+const AboutSection = (props) => {
   const uri =
     process.env.NODE_ENV === "production"
       ? "https://iraqilink.herokuapp.com"
@@ -15,14 +15,22 @@ const AboutSection = () => {
 
   const { user } = useAuthContext();
 
+  const id = props.user
+    ? props.user._id
+    : jwt(localStorage.getItem("token")).id;
+
   const [userData, setUserData] = useState({});
   const fetchUserData = async () => {
     try {
-      const res = await axios.get(
-        `${uri}/api/users/me/${jwt(localStorage.getItem("token")).id}`
-      );
-      console.log(res);
-      setUserData(res.data);
+      if (props.user) {
+        const res = await axios.get(`${uri}/api/users/${id}`);
+        console.log(res);
+        setUserData(res.data);
+      } else {
+        const res = await axios.get(`${uri}/api/users/me/${id}`);
+        console.log(res);
+        setUserData(res.data);
+      }
     } catch (error) {
       console.log("fetchusererror", error);
     }
@@ -41,9 +49,9 @@ const AboutSection = () => {
     <div className="about-section">
       <div className="container">
         <div className="about-collapsable" style={style}>
-          <h4 className="section-title">
-            About
-            {user ? (
+          <div className="section-top">
+            <h4 className="section-title">About</h4>
+            {user && !props.user ? (
               <button
                 className="bg-warning text-dark"
                 style={{ fontSize: "16px", float: "right" }}
@@ -52,15 +60,17 @@ const AboutSection = () => {
                 Edit
               </button>
             ) : null}
-          </h4>
-          <h5
+          </div>
+          <p>{userData.about}</p>
+        </div>{" "}
+        <div className="section-bottom">
+          <button
             style={{ cursor: "pointer" }}
             onClick={() => setCollapsed(!collapsed)}
           >
-            See More
-          </h5>
-          <p>{userData.about}</p>
-        </div>{" "}
+            see more
+          </button>
+        </div>
       </div>
 
       {showEditAbout ? (

@@ -24,23 +24,31 @@ const Header = (props) => {
     console.log(props.data);
   }, []);
 
+  const [loading, setLoading] = useState(true);
+
   const { user } = useAuthContext();
 
   const [userData, setUserData] = useState({});
+  const id = props.user
+    ? props.user._id
+    : jwt(localStorage.getItem("token")).id;
   const fetchUserData = async () => {
     try {
-      const res = await axios.get(
-        `${uri}/api/users/me/${jwt(localStorage.getItem("token")).id}`
-      );
+      const res = await axios.get(`${uri}/api/users/me/${id}`);
       console.log(res);
       setUserData(res.data);
+      setLoading(false);
     } catch (error) {
       console.log("fetchusererror", error);
     }
   };
 
+  const profilePictureStyle =
+    userData.profile_image !== "" ? userData.profile_image : default_picture;
+  const coverPictureStyle =
+    userData.banner_image !== "" ? userData.banner_image : default_picture;
+
   useEffect(() => {
-    console.log("herrr: ", jwt(localStorage.getItem("token")).id);
     fetchUserData();
   }, []);
 
@@ -68,128 +76,147 @@ const Header = (props) => {
     setShowEditCoverPicture(false);
   };
 
-  const profilePictureStyle =
-    userData.profile_image !== "" ? userData.profile_image : default_picture;
-  const coverPictureStyle =
-    userData.banner_image !== "" ? userData.banner_image : default_picture;
-  return (
-    <header className="profile-header">
-      <div className="header-info">
-        <div className="container">
-          <div
-            className="header-banner"
-            style={{ backgroundImage: `url(${coverPictureStyle})` }}
-          >
-            {user ? (
-              <button
-                className="bg-primary text-light"
-                onClick={() => setShowEditCoverPicture(true)}
-              >
-                Edit Cover
-              </button>
-            ) : null}
-          </div>
-          <div className="main-info">
-            <div className="left-side">
-              <div
-                className="profile-picture"
-                style={{ backgroundImage: `url(${profilePictureStyle})` }}
-              ></div>
-              {user ? (
+  if (loading) {
+    return (
+      <div>
+        {" "}
+        <h1>Loading</h1>
+      </div>
+    );
+  } else {
+    return (
+      <header className="profile-header">
+        <div className="header-info">
+          <div className="container">
+            <div
+              className="header-banner"
+              style={{ backgroundImage: `url(${coverPictureStyle})` }}
+            >
+              {user && !props.user ? (
                 <button
                   className="bg-primary text-light"
-                  onClick={() => setShowEditProfilePicture(true)}
+                  onClick={() => setShowEditCoverPicture(true)}
                 >
-                  Change Photo
+                  Edit Cover
                 </button>
               ) : null}
-              <h1>
-                {user ? userData.first_name + " " + userData.last_name : null}{" "}
-              </h1>
-              <h3 className="text-muted">{userData.title}</h3>
-              <h5 className="text-muted">
-                {userData.city + " " + userData.state + " " + userData.country}
-              </h5>
-              <h5 className="text-primary">{userData.email}</h5>
-              <div className="main-info-buttons">
-                {user ? (
+            </div>
+            <div className="main-info">
+              <div className="left-side">
+                <div
+                  className="profile-picture"
+                  style={{ backgroundImage: `url(${profilePictureStyle})` }}
+                ></div>
+                {user && !props.user ? (
                   <button
                     className="bg-primary text-light"
-                    onClick={() => setShowEditInfo(true)}
+                    onClick={() => setShowEditProfilePicture(true)}
                   >
-                    Edit Info
+                    Change Photo
                   </button>
                 ) : null}
+                <h1>
+                  {user && !props.user
+                    ? userData.first_name + " " + userData.last_name
+                    : null}{" "}
+                  {props.user
+                    ? props.user.first_name + " " + props.user.last_name
+                    : null}{" "}
+                </h1>
+                <h3 className="text-muted">
+                  {user && !props.user ? userData.title : null}{" "}
+                  {props.user ? props.user.title : null}
+                </h3>
+                <h5 className="text-muted">
+                  {userData.city +
+                    " " +
+                    userData.state +
+                    " " +
+                    userData.country}
+                </h5>
+                <h5 className="text-primary">
+                  {user && !props.user ? userData.email : null}
+                  {props.user ? props.user.email : null}
+                </h5>
+                <div className="main-info-buttons">
+                  {user && !props.user ? (
+                    <button
+                      className="bg-primary text-light"
+                      onClick={() => setShowEditInfo(true)}
+                    >
+                      Edit Info
+                    </button>
+                  ) : null}
 
-                <button>Message</button>
-                <button>follow</button>
+                  <button>Message</button>
+                  <button>follow</button>
+                </div>
               </div>
-            </div>
-            <div className="bio">
-              {user ? (
-                <button
-                  className="bg-primary text-light"
-                  onClick={() => setShowEditBio(true)}
+              <div className="bio">
+                {user && !props.user ? (
+                  <button
+                    className="bg-primary text-light"
+                    onClick={() => setShowEditBio(true)}
+                  >
+                    Edit Bio
+                  </button>
+                ) : null}
+                <p>{user && !props.user ? userData.bio : props.user.bio}</p>
+              </div>
+            </div>{" "}
+            <div className="header-nav">
+              <ul>
+                <li
+                  onClick={() => props.selectmain()}
+                  className="header-nav-item"
                 >
-                  Edit Bio
-                </button>
-              ) : null}
-              <p>{userData.bio}</p>
+                  Main
+                </li>
+                <li
+                  onClick={() => props.selectprojects()}
+                  className="header-nav-item"
+                >
+                  Projects
+                </li>
+                <li
+                  onClick={() => props.selectteams()}
+                  className="header-nav-item"
+                >
+                  Teams
+                </li>
+                <li
+                  onClick={() => props.selectfollowing()}
+                  className="header-nav-item"
+                >
+                  Following
+                </li>
+              </ul>
             </div>
-          </div>{" "}
-          <div className="header-nav">
-            <ul>
-              <li
-                onClick={() => props.selectmain()}
-                className="header-nav-item"
-              >
-                Main
-              </li>
-              <li
-                onClick={() => props.selectprojects()}
-                className="header-nav-item"
-              >
-                Projects
-              </li>
-              <li
-                onClick={() => props.selectteams()}
-                className="header-nav-item"
-              >
-                Teams
-              </li>
-              <li
-                onClick={() => props.selectfollowing()}
-                className="header-nav-item"
-              >
-                Following
-              </li>
-            </ul>
           </div>
         </div>
-      </div>
 
-      {showEditInfo ? (
-        <EditInfo onHideEditInfo={onHideEditInfo} user={userData} />
-      ) : null}
-      {showEditBio ? (
-        <EditBio onHideEditBio={onHideEditBio} user={userData} />
-      ) : null}
-      {showEditProfilePicture ? (
-        <EditProfilePicture
-          onHideEditProfilePicture={onHideEditProfilePicture}
-          user={userData}
-        />
-      ) : null}
-      {showEditCoverPicture ? (
-        <EditCoverPicture
-          onHideEditCoverPicture={onHideEditCoverPicture}
-          user={userData}
-        />
-      ) : null}
-    </header>
-  );
+        {showEditInfo ? (
+          <EditInfo onHideEditInfo={onHideEditInfo} user={userData} />
+        ) : null}
+        {showEditBio ? (
+          <EditBio onHideEditBio={onHideEditBio} user={userData} />
+        ) : null}
+        {showEditProfilePicture ? (
+          <EditProfilePicture
+            onHideEditProfilePicture={onHideEditProfilePicture}
+            user={userData}
+          />
+        ) : null}
+        {showEditCoverPicture ? (
+          <EditCoverPicture
+            onHideEditCoverPicture={onHideEditCoverPicture}
+            user={userData}
+          />
+        ) : null}
+      </header>
+    );
+  }
 };
-
 const mapStateToProps = (state) => {
   console.log(state);
   return { menuState: state.menuState, loginState: state.loginState };

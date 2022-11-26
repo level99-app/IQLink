@@ -14,10 +14,11 @@ const SignUpPage = () => {
 
     if (passwordTwo === password && password.length > 6) {
       try {
-        const data = await axios.post(`${uri}/api/users`, {
+        await axios.post(`${uri}/api/users`, {
           first_name: firstname,
           last_name: lastname,
           email: email,
+          username: username,
           password: password,
         });
         navigate("/signin");
@@ -28,6 +29,10 @@ const SignUpPage = () => {
       setWrongPasswordMsg("shown");
     }
   };
+
+  const [username, setUsername] = useState("");
+
+  const [showUsernameForm, setShowUsernameForm] = useState(false);
 
   const [passwordsMatch, setPasswordsMatch] = useState(false);
 
@@ -52,6 +57,15 @@ const SignUpPage = () => {
     <div className="sign-up-page">
       <div className="container">
         <form className="sign-up-form">
+          <label>Username</label>
+          <input
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            type="text"
+            placeholder="Enter your new username"
+          />
           <label>First name</label>
           <input
             value={firstname}
@@ -70,7 +84,6 @@ const SignUpPage = () => {
             type="text"
             placeholder="Enter your last name"
           />
-
           <label>Email</label>
           <input
             value={email}
@@ -107,7 +120,7 @@ const SignUpPage = () => {
           />
           <button type="submit" onClick={(e) => handleSubmit(e)}>
             Join Now
-          </button>
+          </button>{" "}
         </form>
       </div>
     </div>

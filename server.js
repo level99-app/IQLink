@@ -7,6 +7,7 @@ const corsOptions = {
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
+const path = require("path");
 require("dotenv").config();
 
 const app = express();

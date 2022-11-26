@@ -32,7 +32,13 @@ const EditAbout = (props) => {
             <label> About </label>
             <textarea
               type="text"
-              onChange={(e) => setAbout(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value === "\n") {
+                  setAbout("dfdf");
+                } else {
+                  setAbout(e.target.value);
+                }
+              }}
               placeholder="talk about your profession, personality...etc. \n example: Optimstic and Enthusiastic Software Engineer with over 5 years of experience..."
               value={about}
             ></textarea>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AboutSection from "../components/AboutSection";
 import EducationSection from "../components/EducationSection";
@@ -20,20 +20,40 @@ import { MdInsertPhoto } from "react-icons/md";
 import { useAuthContext } from "../hooks/useAuthContext";
 import jwt from "jwt-decode";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 const ProfilePage = (props) => {
+  const { username } = useParams();
+
   const uri =
     process.env.NODE_ENV == "production"
       ? "https://iraqilink.herokuapp.com"
       : "http://localhost:5000";
   const [postsData, setPostsData] = useState();
   const [postsLoaded, setPostsLoaded] = useState(false);
+  const [userData, setUserData] = useState();
+  const [userLoaded, setUserLoaded] = useState(false);
+  const [user, setUser] = useState("");
 
-  const id = jwt(localStorage.getItem("token")).id;
+  const fetchUser = async () => {
+    try {
+      await axios
+        .get(`${uri}/api/users/username/${username.toString()}`)
+        .then((res) => {
+          console.log(res.data);
+          setUserData(res.data);
+          setUserLoaded(true);
+        })
+        .then(() => setUserLoaded(true));
+    } catch (error) {
+      console.log("err: ", error);
+    }
+  };
+  const [userId, setUserId] = useState("");
 
   const fetchPosts = async () => {
     try {
       await axios
-        .get(`${uri}/api/posts/${id}`)
+        .get(`${uri}/api/posts/${userData._id}`)
         .then((res) => {
           console.log(res);
           setPostsData(res.data.reverse());
@@ -45,89 +65,58 @@ const ProfilePage = (props) => {
   };
 
   const [postContentText, setPostContentText] = useState("");
-  const publishPost = async () => {
-    try {
-      await axios
-        .post(`${uri}/api/posts/`, {
-          post_origin: id,
-          post_content_text: postContentText,
-        })
-        .then(() => fetchPosts());
-    } catch (error) {}
-  };
 
-  const { user } = useAuthContext();
+  useEffect(() => {
+    console.log(username);
+    fetchUser();
+  }, []);
 
-  const profilePictureStyle = user ? default_picture : default_picture;
-  return (
-    <div className="profile-page">
-      <Header />
-      <div className="container">
-        <div className="sections">
-          <div className="wide-section">
-            {props.menuState.selected === "main" ? (
-              <div>
-                <AboutSection />
-                <EducationSection />
-                <ExperienceSection />
-                {user ? (
-                  <div className="start-a-post">
-                    <div className="start-a-post-top">
-                      <div
-                        style={{
-                          backgroundImage: `url(${profilePictureStyle})`,
-                        }}
-                        className="start-a-post-profile-picture"
-                      ></div>
-                      <textarea
-                        value={postContentText}
-                        onChange={(e) => setPostContentText(e.target.value)}
-                        placeholder="Write a post..."
-                      ></textarea>
-                    </div>
+  const profilePictureStyle = userData
+    ? userData.profile_image
+    : default_picture;
 
-                    <div className="start-a-post-bottom">
-                      <ul>
-                        <li>
-                          <MdInsertPhoto /> Photo
-                        </li>
-                        <li>
-                          <MdInsertPhoto /> Video
-                        </li>
-                        <li>
-                          <button
-                            className="mx-1"
-                            onClick={() => publishPost()}
-                          >
-                            post
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
+  if (!userLoaded) {
+    return (
+      <div>
+        <h1>Loading User</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div className="profile-page">
+        <Header user={userData} />
+        <div className="container">
+          <div className="sections">
+            <div className="wide-section">
+              {props.menuState.selected === "main" ? (
+                <div>
+                  <AboutSection user={userData} />
+                  <EducationSection user={userData} />
+                  <ExperienceSection user={userData} />
+
+                  <div className="posts">
+                    {!postsLoaded ? (
+                      <button onClick={() => fetchPosts()}>load posts</button>
+                    ) : null}
+                    {postsData
+                      ? postsData.map((e) => {
+                          return <Post data={e} />;
+                        })
+                      : null}
                   </div>
-                ) : null}
-                <div className="posts">
-                  {!postsLoaded ? (
-                    <button onClick={() => fetchPosts()}>load posts</button>
-                  ) : null}
-                  {postsData
-                    ? postsData.map((e) => {
-                        return <Post data={e} />;
-                      })
-                    : null}
                 </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            {props.menuState.selected === "teams" ? <TeamsSection /> : null}
-          </div>
-          <div className="side-section">
-            <SuggestionsSection />
+              {props.menuState.selected === "teams" ? <TeamsSection /> : null}
+            </div>
+            <div className="side-section">
+              <SuggestionsSection />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 const mapStateToProps = (state) => {

@@ -4,9 +4,9 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
+  const { first_name, last_name, email, password, username } = req.body;
 
-  if (!first_name || !last_name || !password || !email) {
+  if (!first_name || !last_name || !password || !email || !username) {
     res.status(400);
     throw new Error("Please add all field");
   }
@@ -30,6 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
     first_name,
     last_name,
     email,
+    username,
     password: hashedPassword,
   });
 
@@ -39,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
+      username: user.username,
       token: generateToken(user._id),
     });
   } else {
@@ -73,6 +75,15 @@ const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
+const getUserByUsername = asyncHandler(async (req, res) => {
+  const username = req.params.username;
+  const user = await User.findOne({
+    username: username,
+  });
+
+  res.json(user);
+});
+
 const updateUser = asyncHandler(async (req, res) => {
   const updates = req.body;
   const id = req.body.id;
@@ -93,4 +104,5 @@ module.exports = {
   loginUser,
   getMe,
   updateUser,
+  getUserByUsername,
 };

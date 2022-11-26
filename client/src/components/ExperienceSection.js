@@ -5,7 +5,7 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import EditExperience from "./components-edit/EditExperience";
 
-const ExperienceSection = () => {
+const ExperienceSection = (props) => {
   const uri =
     process.env.NODE_ENV == "production"
       ? "https://iraqilink.herokuapp.com"
@@ -17,8 +17,9 @@ const ExperienceSection = () => {
     setShowEditExperience(false);
   };
 
-  const id = jwt(localStorage.getItem("token")).id;
-
+  const id = props.user
+    ? props.user._id
+    : jwt(localStorage.getItem("token")).id;
   const [experiences, setExperiences] = useState([]);
   const fetchExperiences = async () => {
     try {
@@ -38,9 +39,9 @@ const ExperienceSection = () => {
 
   return (
     <div className="experience-section">
-      <h3 className="section-title">
-        Experience{" "}
-        {user ? (
+      <div className="section-top">
+        <h3 className="section-title">Experience </h3>
+        {user && !props.user ? (
           <button
             style={{ fontSize: "16px", float: "right" }}
             onClick={() => setShowEditExperience(true)}
@@ -48,7 +49,7 @@ const ExperienceSection = () => {
             edit
           </button>
         ) : null}
-      </h3>
+      </div>
 
       {showEditExperience ? (
         <EditExperience
