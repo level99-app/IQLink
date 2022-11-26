@@ -47,8 +47,12 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "build", "index.html"));
-});
+
+
+
+    // Return the actual file
+    res.sendFile(`${__dirname}/build/${path}`);
+ 
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
