@@ -130,7 +130,7 @@
   "bugs": {
     "url": "https://github.com/omarkha/IQLink/issues"
   },
-  "homepage": "https://iraqilink.herokuapp.com",
+  "homepage": "https://iraqilink.herokuapp.com/",
   "devDependencies": {
     "nodemon": "^2.0.20"
   }
