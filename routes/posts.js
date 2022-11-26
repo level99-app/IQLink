@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { getPosts, addPost } = require("../controllers/postsController");
+const {
+  getPosts,
+  addPost,
+  deletePost,
+} = require("../controllers/postsController");
 
 router.get("/:uid", getPosts);
 router.post("/", addPost);
+router.delete("/", deletePost);
 
 module.exports = router;

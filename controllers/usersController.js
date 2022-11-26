@@ -84,6 +84,27 @@ const getUserByUsername = asyncHandler(async (req, res) => {
   res.json(user);
 });
 
+const followUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const followedId = req.body.id;
+  const updates = req.body;
+  const followedUpdates = {
+    followers: id,
+  };
+  const userFollower = await User.findByIdAndUpdate({
+    id,
+    updates,
+  });
+
+  const userFollowed = await User.findByIdAndUpdate({
+    followedId,
+    followedUpdates,
+  });
+
+  res.json(userFollower);
+  res.json(userFollowed);
+});
+
 const updateUser = asyncHandler(async (req, res) => {
   const updates = req.body;
   const id = req.body.id;
@@ -105,4 +126,5 @@ module.exports = {
   getMe,
   updateUser,
   getUserByUsername,
+  followUser,
 };

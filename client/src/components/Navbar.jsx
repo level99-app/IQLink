@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logIn, logOut } from "../store/actions/LoginActions";
 import { connect } from "react-redux";
-import iraq_map from "../assets/iraqmap.png";
+import logo from "../assets/iraqilink.png";
 import { hideModal, showModal } from "../store/actions/loginModelAction";
 import { useAuthContext } from "../hooks/useAuthContext";
 const Navbar = (props) => {
@@ -32,13 +32,12 @@ const Navbar = (props) => {
         <Link className="navbar-brand" to="/">
           <div
             style={{
-              backgroundImage: `url(${iraq_map})`,
+              backgroundImage: `url(${logo})`,
               backgroundSize: "cover",
               width: "34px",
               height: "34px",
             }}
           ></div>
-          <h3>IQLink</h3>
         </Link>
         <input id="nav-searchbar" type="text" placeholder="Search IQLink" />
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">

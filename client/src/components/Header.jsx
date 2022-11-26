@@ -43,6 +43,23 @@ const Header = (props) => {
     }
   };
 
+  const handleFollow = async (e) => {
+    if (user && props.user) {
+      try {
+        await axios
+          .post(`${uri}/api/follows/`, {
+            follower: jwt(localStorage.getItem("token")).id,
+            followed: props.user._id,
+          })
+          .then((res) => {
+            console.log(res);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const profilePictureStyle =
     userData.profile_image !== "" ? userData.profile_image : default_picture;
   const coverPictureStyle =
@@ -149,7 +166,18 @@ const Header = (props) => {
                   ) : null}
 
                   <button>Message</button>
-                  <button>follow</button>
+                  <button onClick={() => handleFollow()}>follow</button>
+                  {user && !props.user ? (
+                    <h6>
+                      {userData.followers.length} followers {" | "}
+                      {userData.following.length} following{" "}
+                    </h6>
+                  ) : (
+                    <h6>
+                      {props.user.followers.length} followers {" | "}
+                      {props.user.following.length} following
+                    </h6>
+                  )}
                 </div>
               </div>
               <div className="bio">

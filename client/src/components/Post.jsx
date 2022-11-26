@@ -14,6 +14,13 @@ const Post = (props) => {
   const profilePictureStyle = user ? default_picture : default_picture;
   return (
     <div className="post">
+      {!props.user && user ? (
+        <div className="section-top">
+          <button className="bg-danger text-light">remove</button>
+          <button className="bg-warning text-dark">edit</button>
+        </div>
+      ) : null}
+
       <div className="post-top">
         <div className="post-origin">
           <div

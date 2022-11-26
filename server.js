@@ -18,6 +18,8 @@ const userRoutes = require("./routes/users");
 const postRoutes = require("./routes/posts");
 const educationRoutes = require("./routes/educations");
 const experienceRoutes = require("./routes/experiences");
+const followRoutes = require("./routes/follows");
+
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
@@ -39,6 +41,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/educations", educationRoutes);
 app.use("/api/experiences", experienceRoutes);
+app.use("/api/follows", followRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

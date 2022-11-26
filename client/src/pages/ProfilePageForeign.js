@@ -23,7 +23,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 const ProfilePage = (props) => {
   const { username } = useParams();
-
+  const usernameString = username.toString();
   const uri =
     process.env.NODE_ENV == "production"
       ? "https://iraqilink.herokuapp.com"
@@ -32,16 +32,14 @@ const ProfilePage = (props) => {
   const [postsLoaded, setPostsLoaded] = useState(false);
   const [userData, setUserData] = useState();
   const [userLoaded, setUserLoaded] = useState(false);
-  const [user, setUser] = useState("");
 
   const fetchUser = async () => {
     try {
       await axios
-        .get(`${uri}/api/users/username/${username.toString()}`)
+        .get(`${uri}/api/users/username/${usernameString}`)
         .then((res) => {
-          console.log(res.data);
+          console.log("fetch User from params: " + res.data);
           setUserData(res.data);
-          setUserLoaded(true);
         })
         .then(() => setUserLoaded(true));
     } catch (error) {
@@ -100,7 +98,9 @@ const ProfilePage = (props) => {
                     ) : null}
                     {postsData
                       ? postsData.map((e) => {
-                          return <Post data={e} />;
+                          return (
+                            <Post data={e} user={userData ? true : false} />
+                          );
                         })
                       : null}
                   </div>
