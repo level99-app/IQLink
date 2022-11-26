@@ -35,7 +35,7 @@ connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
 // use routes
-
+app.use("/api/user/:username", userRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/educations", educationRoutes);
