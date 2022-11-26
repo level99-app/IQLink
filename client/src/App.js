@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import { SiMessenger } from "react-icons/si";
 import Messenger from "./components/Messenger";
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import HomePage from "./pages/HomePage";
 import {
