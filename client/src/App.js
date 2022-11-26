@@ -21,6 +21,7 @@ import SignInModal from "./components/SignInModal";
 import SignInPage from "./pages/SignInPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 import ProfilePageForeign from "./pages/ProfilePageForeign";
+import NotFound from "./pages/NotFound";
 
 function App(props) {
   const { user } = useAuthContext();
@@ -35,6 +36,7 @@ function App(props) {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/user/:username" element={<ProfilePageForeign />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         {user ? <Messenger /> : null}
         {user && !props.messengerBoxState.collapsed ? <MessengerBox /> : null}
