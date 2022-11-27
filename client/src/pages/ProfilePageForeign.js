@@ -98,9 +98,7 @@ const ProfilePage = (props) => {
                     ) : null}
                     {postsData
                       ? postsData.map((e) => {
-                          return (
-                            <Post data={e} user={userData ? true : false} />
-                          );
+                          return <Post data={e} user={userData} />;
                         })
                       : null}
                   </div>

@@ -9,6 +9,6 @@ const {
 
 router.get("/:uid", getPosts);
 router.post("/", addPost);
-router.delete("/", deletePost);
+router.delete("/delete/:pid", deletePost);
 
 module.exports = router;

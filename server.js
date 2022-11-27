@@ -43,11 +43,7 @@ app.use("/api/educations", educationRoutes);
 app.use("/api/experiences", experienceRoutes);
 app.use("/api/follows", followRoutes);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-} else {
-  app.use(express.static("build"));
-}
+app.use(express.static("client/build"));
 
 app.get("*", (req, res) => {
   // Otherwise, redirect to /build/index.html

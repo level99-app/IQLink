@@ -13,10 +13,12 @@ const EditAbout = (props) => {
     e.preventDefault();
 
     try {
-      await axios.patch(`${uri}/api/users/me/${id}}`, {
-        id: id,
-        about: about,
-      });
+      await axios
+        .patch(`${uri}/api/users/me/${id}}`, {
+          id: id,
+          about: about,
+        })
+        .then(() => props.fetchUserData());
     } catch (error) {
       console.log("got error: ", error);
     }

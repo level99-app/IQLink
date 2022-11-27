@@ -29,7 +29,7 @@ const ProfilePage = (props) => {
       : "http://localhost:5000";
   const [postsData, setPostsData] = useState();
   const [postsLoaded, setPostsLoaded] = useState(false);
-
+  const { user } = useAuthContext();
   const id = jwt(localStorage.getItem("token")).id;
 
   const fetchPosts = async () => {
@@ -41,6 +41,21 @@ const ProfilePage = (props) => {
           setPostsData(res.data.reverse());
         })
         .then(() => setPostsLoaded(true));
+    } catch (error) {
+      console.log("err: ", error);
+    }
+  };
+
+  const [userData, setUserData] = useState();
+
+  const fetchUser = async () => {
+    try {
+      await axios
+        .get(`${uri}/api/users/me/${jwt(localStorage.getItem("token")).id}`)
+        .then((res) => {
+          console.log("fetch User from params: " + res.data);
+          setUserData(res.data);
+        });
     } catch (error) {
       console.log("err: ", error);
     }
@@ -58,7 +73,9 @@ const ProfilePage = (props) => {
     } catch (error) {}
   };
 
-  const { user } = useAuthContext();
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const profilePictureStyle = user ? default_picture : default_picture;
   return (
@@ -114,7 +131,13 @@ const ProfilePage = (props) => {
                   ) : null}
                   {postsData
                     ? postsData.map((e) => {
-                        return <Post data={e} />;
+                        return (
+                          <Post
+                            fetchPosts={fetchPosts}
+                            data={e}
+                            local_user={userData}
+                          />
+                        );
                       })
                     : null}
                 </div>

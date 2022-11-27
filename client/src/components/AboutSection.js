@@ -61,7 +61,7 @@ const AboutSection = (props) => {
               </button>
             ) : null}
           </div>
-          <p>{userData.about}</p>
+          <p style={{ whiteSpace: "pre-wrap" }}>{userData.about}</p>
         </div>{" "}
         <div className="section-bottom">
           <button
@@ -74,7 +74,11 @@ const AboutSection = (props) => {
       </div>
 
       {showEditAbout ? (
-        <EditAbout onHideEditAbout={onHideEditAbout} user={userData} />
+        <EditAbout
+          fetchUserData={fetchUserData}
+          onHideEditAbout={onHideEditAbout}
+          user={userData}
+        />
       ) : null}
     </div>
   );

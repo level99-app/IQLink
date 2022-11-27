@@ -10,5 +10,6 @@ const {
 router.get("/followers/:id", getFollowers);
 router.get("/following/:id", getFollowing);
 router.post("/", addFollow);
+router.delete("/", addFollow);
 
 module.exports = router;

@@ -21,7 +21,7 @@ const Header = (props) => {
       ? "https://iraqilink.herokuapp.com"
       : "http://localhost:5000";
   useEffect(() => {
-    console.log(props.data);
+    console.log(props.user);
   }, []);
 
   const [loading, setLoading] = useState(true);
@@ -135,7 +135,7 @@ const Header = (props) => {
                 <h1>
                   {user && !props.user
                     ? userData.first_name + " " + userData.last_name
-                    : null}{" "}
+                    : null}
                   {props.user
                     ? props.user.first_name + " " + props.user.last_name
                     : null}{" "}
